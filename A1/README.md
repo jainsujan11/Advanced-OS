@@ -41,28 +41,28 @@ Place the `A1` directory within the kernel source and ensure it’s included by 
 
 ## 3. Calling the respective system call using wrapper functions.
 
-We provide thin C wrappers in `WRAP+TEST/` so user programs can call the new syscalls directly and get typed results back.
+We provide thin C wrappers in `Library_Wrapper_and_Test_Files/` so user programs can call the new syscalls directly and get typed results back.
 
 - get_info_for_pid (per-process info)
-	- Header: `WRAP+TEST/lib_get_info_for_pid.h`
+	- Header: `Library_Wrapper_and_Test_Files/lib_get_info_for_pid.h`
 	- API: `struct proc_info* get_info_for_pid(pid_t pid);`
 	- Returns: `proc_info { parent_pid, state, static_prio, nr_children, nr_siblings }` on success; `NULL` on failure with `errno` set. Free with `free_proc_info(info)`.
-	- Impl: `WRAP+TEST/lib_get_info_for_pid.c` (invokes syscall number 441 and parses a CSV into the struct). 
+	- Impl: `Library_Wrapper_and_Test_Files/lib_get_info_for_pid.c` (invokes syscall number 441 and parses a CSV into the struct). 
 
 - get_info (scheduler/system summary)
-	- Header: `WRAP+TEST/lib_get_info.h`
+	- Header: `Library_Wrapper_and_Test_Files/lib_get_info.h`
 	- API: `struct sched_info* get_info(void);`
 	- Returns: `sched_info { total_processes, nr_task_running, nr_task_interruptible, nr_task_uninterruptible, nr_rt_class, nr_fair_class, cfs_nr_running, min_vruntime_pid, min_vruntime, total_load_weight, target_latency_ms }` on success; `NULL` on failure with `errno` set. Free with `free_sched_info(info)`.
 	- Note: `target_latency_ms` is converted to milliseconds in the wrapper.
-	- Impl: `WRAP+TEST/lib_get_info.c` (invokes syscall number 442 and parses a CSV into the struct).
+	- Impl: `Library_Wrapper_and_Test_Files/lib_get_info.c` (invokes syscall number 442 and parses a CSV into the struct).
 
-Build/test helpers for these wrappers are in `WRAP+TEST/Makefile` and `WRAP+TEST/run.sh` (see Demo Instructions).
+Build/test helpers for these wrappers are in `Library_Wrapper_and_Test_Files/Makefile` and `Library_Wrapper_and_Test_Files/run.sh` (see Demo Instructions).
 
 ## 4. Demo Instructions
 
 From a Linux system running the patched kernel:
 
-1. Build wrappers and tests (in `WRAP+TEST/`):
+1. Build wrappers and tests (in `Library_Wrapper_and_Test_Files/`):
 	 - `make`
 2. Run the scheduler summary demo:
 	 - `./get_info`
