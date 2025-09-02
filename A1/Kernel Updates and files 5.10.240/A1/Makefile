@@ -1,0 +1,1 @@
+obj-y += get_info.o get_info_for_pid.o 
